@@ -53,18 +53,16 @@ btnroll.addEventListener("click", function () {
 
 btnhold.addEventListener("click", function () {
 
-    // Spara rundans poäng
+
     scores[activePlayer] = scores[activePlayer] + roundScore;
 
-    // Visa totalpoängen
     document.getElementById(`current-${activePlayer}`).textContent =
         scores[activePlayer];
 
-    // Nollställ rundans poäng
     roundScore = 0;
     document.getElementById(`score-${activePlayer}`).textContent = 0;
 
-    // Byt spelare
+
     if (activePlayer === 0) {
         activePlayer = 1;
     } else {
