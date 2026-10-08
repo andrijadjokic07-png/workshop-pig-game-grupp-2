@@ -2,6 +2,7 @@
 // Grisspelet
 // =============================================
 
+
 // ---------- 1. Speldata ----------
 
 const WINNING_SCORE = 100;
@@ -33,6 +34,15 @@ btnnew.addEventListener("click", function () {
 
     document.getElementById("current-0").textContent = 0;
     document.getElementById("current-1").textContent = 0;
+
+    document.getElementById("name-0").textContent = "Spelare 1";
+    document.getElementById("name-1").textContent = "Spelare 2";
+
+    document.getElementById("name-0").classList.remove("winner");
+    document.getElementById("name-1").classList.remove("winner");
+
+    document.getElementById("dice-1").style.display = "block";
+    document.getElementById("dice-2").style.display = "block";
 });
 
 
@@ -40,28 +50,51 @@ btnnew.addEventListener("click", function () {
 
 btnroll.addEventListener("click", function () {
 
+    if (!isPlaying) {
+        return;
+    }
+
     let diceRoll = Math.floor(Math.random() * 6) + 1;
 
     roundScore = roundScore + diceRoll;
 
-    // Visa poängen hos den aktiva spelaren
     document.getElementById(`score-${activePlayer}`).textContent = roundScore;
 });
 
 
-// ---------- 5. Håll poäng + byt spelare ----------
+// ---------- 5. Håll poäng ----------
 
 btnhold.addEventListener("click", function () {
 
+    if (!isPlaying) {
+        return;
+    }
 
     scores[activePlayer] = scores[activePlayer] + roundScore;
 
     document.getElementById(`current-${activePlayer}`).textContent =
         scores[activePlayer];
 
-    roundScore = 0;
-    document.getElementById(`score-${activePlayer}`).textContent = 0;
+    if (scores[activePlayer] >= WINNING_SCORE) {
 
+        isPlaying = false;
+
+        document.getElementById(`name-${activePlayer}`).textContent =
+            "Vinnare!";
+
+        document
+            .getElementById(`name-${activePlayer}`)
+            .classList.add("winner");
+
+        document.getElementById("dice-1").style.display = "none";
+        document.getElementById("dice-2").style.display = "none";
+
+        return;
+    }
+
+    roundScore = 0;
+
+    document.getElementById(`score-${activePlayer}`).textContent = 0;
 
     if (activePlayer === 0) {
         activePlayer = 1;
